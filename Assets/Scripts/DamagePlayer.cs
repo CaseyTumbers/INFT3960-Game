@@ -1,0 +1,35 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DamagePlayer : MonoBehaviour
+{
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        //print("OW");
+
+        if (collision.gameObject.name.Equals("Main Character"))
+        {
+            //RaycastHit2D hit1 = Physics2D.Raycast(collision.transform.position, Vector2.right, 1000f);
+            //RaycastHit2D hit2 = Physics2D.Raycast(collision.transform.position, -Vector2.right, 1000f);
+            if (!GetComponentInParent<SlimeMovement>().getIsControlled() && !Input.GetKey(KeyCode.Z))
+            {
+                if(collision.GetComponent<Player>().getHealth() > 1)
+                {
+                    collision.GetComponent<Rigidbody2D>().velocity = new Vector2(-100f, 50f);
+                }
+                collision.GetComponent<Player>().loseHealth();
+            }
+            //print(hit1.collider);
+            /*if (hit1.collider == null && hit2.collider == null)
+            {
+                collision.GetComponent<Rigidbody2D>().AddForce(transform.up * 5000 + transform.right * -15000);
+            }
+            else
+            {
+                print("GOING UP");
+                collision.GetComponent<Rigidbody2D>().AddForce(transform.up * 5000);
+            }*/
+        }
+    }
+}
