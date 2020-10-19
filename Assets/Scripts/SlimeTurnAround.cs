@@ -34,7 +34,7 @@ public class SlimeTurnAround : MonoBehaviour
                 }
             }
         }
-        else if (detectionInt == 1)
+        /*else if (detectionInt == 1)
         {
             //print(collision.gameObject.name);
             if (!collision.IsTouchingLayers(9) && !wait)
@@ -48,13 +48,14 @@ public class SlimeTurnAround : MonoBehaviour
                     //print("HIT ROCK");
                     if (turned)
                     {
+                        print("Turning Left");
                         faceLeft();
                         turned = false;
                         GetComponentInParent<SlimeMovement>().direction = -1f;
                     }
                     else if (!turned)
                     {
-                        //print("TURNED AROUND");
+                        print("Turning Right");
                         faceRight();
                         turned = true;
                         GetComponentInParent<SlimeMovement>().direction = 1f;
@@ -68,8 +69,59 @@ public class SlimeTurnAround : MonoBehaviour
             {
                 //print("Back on track");
             }
-        }
+        }*/
 
+    }
+
+    private void FixedUpdate()
+    {
+        if (detectionInt == 1)
+        {
+            // Bit shift the index of the layer (8) to get a bit mask
+            int layerMask = 1 << 8;
+
+            // This would cast rays only against colliders in layer 8.
+            // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
+            
+
+            RaycastHit hit;
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.down), 1, layerMask))
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 1, Color.yellow);
+                Debug.Log("Did Hit");
+            }
+            else
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 10, Color.white);
+                Debug.Log("Did not Hit");
+                if (!GetComponentInParent<SlimeMovement>().getIsAttacking())
+                {
+                    wait = true;
+                    print("AHHH NO EDGE");
+                    detectAreaLeft.GetComponent<BoxCollider2D>().enabled = false;
+                    this.GetComponent<BoxCollider2D>().enabled = false;
+                    //print("HIT ROCK");
+                    if (turned)
+                    {
+                        print("Turning Left");
+                        faceLeft();
+                        turned = false;
+                        GetComponentInParent<SlimeMovement>().direction = -1f;
+                    }
+                    else if (!turned)
+                    {
+                        print("Turning Right");
+                        faceRight();
+                        turned = true;
+                        GetComponentInParent<SlimeMovement>().direction = 1f;
+                    }
+                    detectAreaLeft.GetComponent<BoxCollider2D>().enabled = true;
+                    this.GetComponent<BoxCollider2D>().enabled = true;
+                    wait = false;
+                }
+            }
+        }
     }
 
     /*void OnCollisionExit(Collision collision)
