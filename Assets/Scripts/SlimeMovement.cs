@@ -10,6 +10,7 @@ public class SlimeMovement : controllableEnemy
     private Rigidbody2D rbody;
     private Animator animate;
     private bool isAttacking = false;
+    private bool mountAnim = false;
     //private bool isControlled = false;
 
     void Awake()
@@ -22,6 +23,11 @@ public class SlimeMovement : controllableEnemy
     {
         if (isControlled)
         {
+            if (!mountAnim)
+            { 
+                animate.SetTrigger("slimeMounted");
+                mountAnim = true;
+            }
             if (Input.GetKey("left"))
             {
                 player.GetComponent<Player>().faceLeft();
@@ -39,6 +45,7 @@ public class SlimeMovement : controllableEnemy
                 setIsControlled(false);
                 launchPlayer();
                 setPlayer(null);
+                mountAnim = false;
             }
         }
         else

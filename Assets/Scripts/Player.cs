@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     protected Animator animator;
     public GameObject sprite;
 
+    private bool mountedAnimPlayer = false;
+
     public int health = 3;
     public int numOfHearts;
     public Image[] hearts;
@@ -49,10 +51,17 @@ public class Player : MonoBehaviour
             //WallCheck();
             Jump();
             BetterJump();
+            mountedAnimPlayer = false;
         }
         else
         {
             animator.SetBool("isRunning", false);
+            if (!mountedAnimPlayer)
+            {
+                animator.SetBool("isMounted", true);
+                animator.SetTrigger("mounted");
+                mountedAnimPlayer = true;
+            }
         }
     }
 

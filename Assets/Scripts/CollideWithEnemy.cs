@@ -11,7 +11,7 @@ public class CollideWithEnemy : Player
     public Player playerMovement;
     public bool coolDown = false;
     float coolDownTime;
-    GameObject control;
+    GameObject controlledCreature;
     //private controllableEnemy control;
 
     // Update is called once per frame
@@ -24,18 +24,17 @@ public class CollideWithEnemy : Player
         {
             //print("MOUNTING");
             playerMovement.setControllingCreature(true);
-            animator.SetBool("isMounted", true);
         }
 
         
         //print(playerMovement.getControllingCreature());
         if (playerMovement.getControllingCreature())
         {
-            control = collider.gameObject;
+            controlledCreature = collider.gameObject;
             //print(control);
-            transform.position = new Vector3(control.transform.position.x, control.transform.position.y+3, control.transform.position.x);
-            control.GetComponent<controllableEnemy>().setIsControlled(true);
-            control.GetComponent<controllableEnemy>().setPlayer(gameObject);
+            transform.position = new Vector3(controlledCreature.transform.position.x, controlledCreature.transform.position.y+3, controlledCreature.transform.position.x);
+            controlledCreature.GetComponent<controllableEnemy>().setIsControlled(true);
+            controlledCreature.GetComponent<controllableEnemy>().setPlayer(gameObject);
             //playerMovement.setControllingCreature(true);
             //transform.position = control.transform.position;
         }

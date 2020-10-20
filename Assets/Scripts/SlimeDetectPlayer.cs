@@ -6,6 +6,7 @@ public class SlimeDetectPlayer : MonoBehaviour
 {
     public GameObject attackArea;
     public GameObject siblingDetectArea;
+    public GameObject turnAroundScript;
     private Animator animator;
     private bool coolDown = false;
     
@@ -22,14 +23,20 @@ public class SlimeDetectPlayer : MonoBehaviour
         //print("OW");
         if (collision.gameObject.name.Equals("Main Character") && !coolDown)
         {
+            startCooldown();
             GetComponentInParent<SlimeMovement>().setIsAttacking(true);
-            if (this.gameObject.name.Contains("Right"))
+            siblingDetectArea.GetComponent<BoxCollider2D>().enabled = false;
+            this.GetComponent<BoxCollider2D>().enabled = false;
+            if (this.gameObject.name.Contains("Right") && !turnAroundScript.GetComponent<SlimeTurnAround>().getTurned())
             {
                 faceRight();
                 print("Right side");  
             }
-            siblingDetectArea.GetComponent<BoxCollider2D>().enabled = false;
-            this.GetComponent<BoxCollider2D>().enabled = false;
+            else if(this.gameObject.name.Contains("Right") && turnAroundScript.GetComponent<SlimeTurnAround>().getTurned())
+            {
+                faceLeft();
+            }
+            
             animator.SetTrigger("charge");
             Invoke("attackAnim", 1);
             Invoke("stopAttack", 2);
@@ -45,21 +52,42 @@ public class SlimeDetectPlayer : MonoBehaviour
     void attack()
     {
         attackArea.GetComponent<BoxCollider2D>().enabled = true;
-        coolDown = true;
     }
 
     void stopAttack()
     {
         animator.SetBool("attack", false);
         attackArea.GetComponent<BoxCollider2D>().enabled = false;
-        coolDown = false;
+        Invoke("resetCooldown", 2f);
         siblingDetectArea.GetComponent<BoxCollider2D>().enabled = true;
+
+        if (this.gameObject.name.Contains("Right") && !turnAroundScript.GetComponent<SlimeTurnAround>().getTurned())
+        {
+            Invoke("faceLeft", 0.2f);
+        }
+        else if (this.gameObject.name.Contains("Right") && turnAroundScript.GetComponent<SlimeTurnAround>().getTurned())
+        {
+            Invoke("faceRight", 0.2f);
+        }
         this.GetComponent<BoxCollider2D>().enabled = true;
         GetComponentInParent<SlimeMovement>().setIsAttacking(false);
-        if (this.gameObject.name.Contains("Right"))
-        {
-            Invoke("faceLeft", 0.1f);
-        }
+    }
+
+    void startCooldown()
+    {
+        coolDown = true;
+        siblingDetectArea.gameObject.GetComponent<SlimeDetectPlayer>().setCooldown(true);
+    }
+    void resetCooldown()
+    {
+        print("Reset Cooldown");
+        coolDown = false;
+        siblingDetectArea.gameObject.GetComponent<SlimeDetectPlayer>().setCooldown(false);
+    }
+
+    public void setCooldown(bool b)
+    {
+        coolDown = b;
     }
 
     void faceRight()
