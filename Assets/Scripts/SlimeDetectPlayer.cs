@@ -21,7 +21,15 @@ public class SlimeDetectPlayer : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         //print("OW");
-        if (collision.gameObject.name.Equals("Main Character") && !coolDown)
+        if (collision.gameObject.name.Equals("Main Character"))
+        {
+            Attack();
+        }
+    }
+
+    public void Attack()
+    {
+        if (!coolDown)
         {
             startCooldown();
             GetComponentInParent<SlimeMovement>().setIsAttacking(true);
@@ -30,19 +38,18 @@ public class SlimeDetectPlayer : MonoBehaviour
             if (this.gameObject.name.Contains("Right") && !turnAroundScript.GetComponent<SlimeTurnAround>().getTurned())
             {
                 faceRight();
-                print("Right side");  
+                print("Right side");
             }
-            else if(this.gameObject.name.Contains("Right") && turnAroundScript.GetComponent<SlimeTurnAround>().getTurned())
+            else if (this.gameObject.name.Contains("Right") && turnAroundScript.GetComponent<SlimeTurnAround>().getTurned())
             {
                 faceLeft();
             }
-            
+
             animator.SetTrigger("charge");
             Invoke("attackAnim", 1);
             Invoke("stopAttack", 2);
         }
     }
-
     void attackAnim()
     {
         animator.SetBool("attack", true);

@@ -31,5 +31,11 @@ public class DamagePlayer : MonoBehaviour
                 collision.GetComponent<Rigidbody2D>().AddForce(transform.up * 5000);
             }*/
         }
+        else if (collision.gameObject.name.Contains("Slime") && !collision.gameObject.Equals(this.transform.parent.gameObject))
+        {
+           
+                collision.GetComponent<SlimeMovement>().slimeLoseHealth();
+            
+        }
     }
 }

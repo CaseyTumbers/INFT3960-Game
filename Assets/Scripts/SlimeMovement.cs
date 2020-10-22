@@ -11,6 +11,8 @@ public class SlimeMovement : controllableEnemy
     private Animator animate;
     private bool isAttacking = false;
     private bool mountAnim = false;
+
+    private int slimeHealth = 1;
     //private bool isControlled = false;
 
     void Awake()
@@ -46,6 +48,10 @@ public class SlimeMovement : controllableEnemy
                 launchPlayer();
                 setPlayer(null);
                 mountAnim = false;
+            }
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                GetComponentInChildren<SlimeDetectPlayer>().Attack();
             }
         }
         else
@@ -96,6 +102,21 @@ public class SlimeMovement : controllableEnemy
         Rigidbody2D playerBody = player.GetComponent<Rigidbody2D>();
         playerBody.velocity = new Vector2(playerBody.velocity.x, 50f);
         //playerBody.velocity += Vector2.up * Physics2D.gravity * (250 - 1) * Time.deltaTime;
+    }
+
+    public void slimeLoseHealth()
+    {
+        slimeHealth -= 1;
+        if (slimeHealth <= 0)
+        {
+            print(this.gameObject.name + " is hurt");
+            slimeHealth = 1;
+        }
+    }
+
+    public int getSlimeHealth()
+    {
+        return slimeHealth;
     }
 
     public void setIsAttacking(bool a)
