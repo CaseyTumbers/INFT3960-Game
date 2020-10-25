@@ -75,7 +75,7 @@ public class SlimeTurnAround : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (detectionInt == 1)
+        if (detectionInt == 1 && !GetComponentInParent<SlimeMovement>().getIsControlled())
         {
             // Bit shift the index of the layer (8) to get a bit mask
             int layerMask = 1 << 8;
@@ -159,13 +159,13 @@ public class SlimeTurnAround : MonoBehaviour
 
     }*/
 
-    void faceRight()
+    public void faceRight()
     {
         transform.parent.eulerAngles = new Vector3(0, 180, 0);
         turned = true;
     }
 
-    void faceLeft()
+    public void faceLeft()
     {
         transform.parent.eulerAngles = new Vector3(0, 0, 0);
         turned = false;

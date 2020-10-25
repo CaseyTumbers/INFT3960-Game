@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEditor.XR;
+using System.Dynamic;
 
 public class Player : MonoBehaviour
 {
@@ -9,13 +11,17 @@ public class Player : MonoBehaviour
     private bool jumped = false;
     private bool controllingCreature = false;
     public bool stop = false;
+    private bool facingRight = true;
+
     public Transform isGroundedChecker;
     public Transform isWallRightChecker;
     public float checkGroundRadius;
     public LayerMask groundLayer;
+
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
     public float jumpForce;
+
     public Transform respawnPoint;
     protected Animator animator;
     public GameObject sprite;
@@ -164,14 +170,21 @@ public class Player : MonoBehaviour
         return health;
     }
 
+    public bool getFacingRight()
+    {
+        return facingRight;
+    }
+
     public void faceRight()
     {
         transform.eulerAngles = new Vector3(0, 0, 0);
+        facingRight = true;
     }
 
     public void faceLeft()
     {
         transform.eulerAngles = new Vector3(0, 180, 0);
+        facingRight = false;
     }
 
     public Animator getAnimator()

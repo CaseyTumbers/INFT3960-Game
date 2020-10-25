@@ -29,14 +29,25 @@ public class SlimeMovement : controllableEnemy
             { 
                 animate.SetTrigger("slimeMounted");
                 mountAnim = true;
+
+                if(this.GetComponentInChildren<SlimeTurnAround>().getTurned() && !player.GetComponent<Player>().getFacingRight())
+                {
+                    this.GetComponentInChildren<SlimeTurnAround>().faceLeft();
+                }
+                else if(!this.GetComponentInChildren<SlimeTurnAround>().getTurned() && player.GetComponent<Player>().getFacingRight())
+                {
+                    this.GetComponentInChildren<SlimeTurnAround>().faceRight();
+                }
             }
             if (Input.GetKey("left"))
             {
                 player.GetComponent<Player>().faceLeft();
+                this.GetComponentInChildren<SlimeTurnAround>().faceLeft();
             }
             else if (Input.GetKey("right"))
             {
                 player.GetComponent<Player>().faceRight();
+                this.GetComponentInChildren<SlimeTurnAround>().faceRight();
             }
             Move();
             DisableAggro();
