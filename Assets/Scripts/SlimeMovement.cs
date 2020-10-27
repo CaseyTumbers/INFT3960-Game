@@ -13,12 +13,23 @@ public class SlimeMovement : controllableEnemy
     private bool mountAnim = false;
 
     private int slimeHealth = 1;
+    private Transform initialPos;
+    private float initialX, initialY;
+    private bool respawnPointFlag = false;
     //private bool isControlled = false;
 
     void Awake()
     {
         rbody = GetComponent<Rigidbody2D>();
         animate = GetComponent<Animator>();
+        if (!respawnPointFlag)
+        {
+            respawnPointFlag = true;
+            initialPos = this.transform;
+            initialY = Mathf.Floor(this.transform.position.y);
+            initialX = this.transform.position.x;
+        
+        }
     }
 
     void Update()
@@ -76,6 +87,15 @@ public class SlimeMovement : controllableEnemy
             {
                 rbody.velocity = new Vector2(0,0);
             }
+
+            if (this.transform.position.y < initialY)
+            {
+                Respawn();
+            }
+            
+            //print(this.gameObject.name + " Respawn Point: (" + initialX + "," + initialY + ")");
+            
+            
         }
     }
 
@@ -111,7 +131,8 @@ public class SlimeMovement : controllableEnemy
         animate.SetTrigger("launch");
         player.GetComponent<Player>().getAnimator().SetBool("isMounted", false);
         Rigidbody2D playerBody = player.GetComponent<Rigidbody2D>();
-        playerBody.velocity = new Vector2(playerBody.velocity.x, 50f);
+        playerBody.velocity = new Vector2(playerBody.velocity.x, 75f);
+        player.GetComponent<Player>().setLaunched(true);
         //playerBody.velocity += Vector2.up * Physics2D.gravity * (250 - 1) * Time.deltaTime;
     }
 
@@ -122,7 +143,13 @@ public class SlimeMovement : controllableEnemy
         {
             print(this.gameObject.name + " is hurt");
             slimeHealth = 1;
+            Respawn();
         }
+    }
+
+    public void Respawn()
+    {
+        transform.position = new Vector3(initialX,initialY,0);
     }
 
     public int getSlimeHealth()

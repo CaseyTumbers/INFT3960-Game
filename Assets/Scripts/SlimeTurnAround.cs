@@ -102,14 +102,14 @@ public class SlimeTurnAround : MonoBehaviour
                         //print("Turning Left");
                         faceLeft();
                         //turned = false;
-                        GetComponentInParent<SlimeMovement>().direction = -1f;
+                        
                     }
                     else if (!turned)
                     {
                         //print("Turning Right");
                         faceRight();
                         //turned = true;
-                        GetComponentInParent<SlimeMovement>().direction = 1f;
+                  
                     }
                     detectAreaLeft.GetComponent<BoxCollider2D>().enabled = true;
                     this.GetComponent<BoxCollider2D>().enabled = true;
@@ -163,12 +163,14 @@ public class SlimeTurnAround : MonoBehaviour
     {
         transform.parent.eulerAngles = new Vector3(0, 180, 0);
         turned = true;
+        GetComponentInParent<SlimeMovement>().direction = 1f;
     }
 
     public void faceLeft()
     {
         transform.parent.eulerAngles = new Vector3(0, 0, 0);
         turned = false;
+        GetComponentInParent<SlimeMovement>().direction = -1f;
     }
 
     public bool getTurned()

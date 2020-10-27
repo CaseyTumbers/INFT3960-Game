@@ -14,11 +14,14 @@ public class DamagePlayer : MonoBehaviour
             //RaycastHit2D hit2 = Physics2D.Raycast(collision.transform.position, -Vector2.right, 1000f);
             if (!GetComponentInParent<SlimeMovement>().getIsControlled() && !Input.GetKey(KeyCode.Z))
             {
-                if(collision.GetComponent<Player>().getHealth() > 1)
-                {
-                    collision.GetComponent<Rigidbody2D>().velocity = new Vector2(-100f, 50f);
-                }
-                collision.GetComponent<Player>().loseHealth();
+               
+               
+                    collision.GetComponent<Player>().TakeDamage();
+                    //collision.GetComponent<Rigidbody2D>().velocity = new Vector2(-100f, 50f);
+                    //collision.GetComponent<Player>().setLaunched(true);
+                    print("GO AWAY!!!");
+                
+                //collision.GetComponent<Player>().loseHealth();
             }
             //print(hit1.collider);
             /*if (hit1.collider == null && hit2.collider == null)

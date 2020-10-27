@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private bool controllingCreature = false;
     public bool stop = false;
     private bool facingRight = true;
+    private bool launched = false;
 
     public Transform isGroundedChecker;
     public Transform isWallRightChecker;
@@ -97,12 +98,11 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !jumped)
+        if (Input.GetKeyDown(KeyCode.Space) && !jumped && !launched)
         {
             rbody.velocity = Vector2.up*jumpForce;
             animator.SetInteger("inAir", 1);
         }
-        
     }
 
     void CanJump()
@@ -111,6 +111,7 @@ public class Player : MonoBehaviour
         if (collider != null)
         {
             jumped = false;
+            launched = false;
             animator.SetInteger("inAir", 0);
         }
         else
@@ -121,11 +122,13 @@ public class Player : MonoBehaviour
 
     void BetterJump()
     {
+        print(launched);
+       
         if (rbody.velocity.y < 0)
         {
             rbody.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
         }
-        else if (rbody.velocity.y > 0 && !Input.GetKey(KeyCode.Space))
+        else if (rbody.velocity.y > 0 && (!Input.GetKey(KeyCode.Space) || launched))
         {
             rbody.velocity += Vector2.up * Physics2D.gravity * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
@@ -146,13 +149,18 @@ public class Player : MonoBehaviour
        
         if (collision.gameObject.layer.Equals(9) && !Input.GetKey(KeyCode.Z))
         {
-            if(health > 1)
-            {
-                rbody.velocity = new Vector2(-100f, 50f);
-            }
-            loseHealth();
-           
+            TakeDamage();
         }
+    }
+
+    public void TakeDamage()
+    {
+        if (health > 1)
+        {
+            launched = true;
+            rbody.velocity = new Vector2(-100f, 50f);
+        }
+        loseHealth();
     }
 
     public void setControllingCreature(bool value)
@@ -168,6 +176,11 @@ public class Player : MonoBehaviour
      public int getHealth()
     {
         return health;
+    }
+
+    public void setLaunched(bool l)
+    {
+        launched = l;
     }
 
     public bool getFacingRight()
