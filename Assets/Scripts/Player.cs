@@ -120,9 +120,23 @@ public class Player : MonoBehaviour
         }
     }
 
+    public bool ExternalJumpCheck()
+    {
+        Collider2D collider = Physics2D.OverlapCircle(isGroundedChecker.position, checkGroundRadius, groundLayer);
+        if (collider != null)
+        {
+            animator.SetInteger("inAir", 0);
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     void BetterJump()
     {
-        print(launched);
+        //print(launched);
        
         if (rbody.velocity.y < 0)
         {
@@ -204,7 +218,7 @@ public class Player : MonoBehaviour
     {
         return animator;
     }
-    void animate()
+    public void animate()
     {
         if (Input.GetKey("left") && !jumped)
         {

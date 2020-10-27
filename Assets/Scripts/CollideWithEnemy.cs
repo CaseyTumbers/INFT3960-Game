@@ -10,6 +10,7 @@ public class CollideWithEnemy : Player
     public LayerMask enemyLayer;
     public Player playerMovement;
     public bool coolDown = false;
+    bool eagleControlled = false;
     float coolDownTime;
     GameObject controlledCreature;
     //private controllableEnemy control;
@@ -26,26 +27,49 @@ public class CollideWithEnemy : Player
             playerMovement.setControllingCreature(true);
         }
 
-        
-        //print(playerMovement.getControllingCreature());
-        if (playerMovement.getControllingCreature())
+        if (!eagleControlled)
         {
-            controlledCreature = collider.gameObject;
-            //print(control);
-            transform.position = new Vector3(controlledCreature.transform.position.x, controlledCreature.transform.position.y+3, controlledCreature.transform.position.x);
+            //print(playerMovement.getControllingCreature());
+            if (playerMovement.getControllingCreature())
+            {
+                controlledCreature = collider.gameObject;
+                //print(control);
+                transform.position = new Vector3(controlledCreature.transform.position.x, controlledCreature.transform.position.y + 3, controlledCreature.transform.position.x);
+                controlledCreature.GetComponent<controllableEnemy>().setIsControlled(true);
+                controlledCreature.GetComponent<controllableEnemy>().setPlayer(gameObject);
+                //playerMovement.setControllingCreature(true);
+                //transform.position = control.transform.position;
+            }
+            else if (coolDown)
+            {
+                coolDownTime -= Time.deltaTime;
+            }
+        }
+        else
+        {
             controlledCreature.GetComponent<controllableEnemy>().setIsControlled(true);
             controlledCreature.GetComponent<controllableEnemy>().setPlayer(gameObject);
-            //playerMovement.setControllingCreature(true);
-            //transform.position = control.transform.position;
-        }
-        else if (coolDown)
-        {
-            coolDownTime -= Time.deltaTime;
+            eagleControlled = true;
         }
 
         if(coolDownTime < 0)
         {
             coolDown = false;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collider)
+    {
+
+        if (collider.gameObject.layer.Equals(10) && Input.GetKey(KeyCode.Z) && !coolDown)
+        {
+            controlledCreature = collider.gameObject;
+            //print(control);
+            transform.position = new Vector3(controlledCreature.transform.position.x, controlledCreature.transform.position.y - 1, controlledCreature.transform.position.x);
+            controlledCreature.GetComponent<controllableEnemy>().setIsControlled(true);
+            controlledCreature.GetComponent<controllableEnemy>().setPlayer(gameObject);
+            eagleControlled = true;
+            //playerMovement.setControllingCreature(true);
         }
     }
 
