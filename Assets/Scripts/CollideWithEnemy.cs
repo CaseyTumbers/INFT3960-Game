@@ -21,7 +21,7 @@ public class CollideWithEnemy : Player
         Collider2D collider = Physics2D.OverlapCircle(isEnemyChecker.position, checkEnemyRadius, enemyLayer);
 
 
-        if (Input.GetKey(KeyCode.Z) && collider != null && !coolDown)
+        if (Input.GetKey(KeyCode.Z) && collider != null && !coolDown && !eagleControlled)
         {
             //print("MOUNTING");
             playerMovement.setControllingCreature(true);

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public bool stop = false;
     private bool facingRight = true;
     private bool launched = false;
+    public bool isFalling = false;
 
     public Transform isGroundedChecker;
     public Transform isWallRightChecker;
@@ -238,6 +239,11 @@ public class Player : MonoBehaviour
         if(rbody.velocity.y < 0)
         {
             animator.SetInteger("inAir", -1);
+            isFalling = true;
+        }
+        else
+        {
+            isFalling = false;
         }
     }
 

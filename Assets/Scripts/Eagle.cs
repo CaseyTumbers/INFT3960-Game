@@ -37,13 +37,7 @@ public class Eagle : controllableEnemy
         {
             transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, this.transform.position.z);
             GetComponent<BoxCollider2D>().enabled = false;
-            xMovement = Input.GetAxisRaw("Horizontal") * speed;
-            //CanJump();
-            //WallCheck();
-            player.GetComponent<Player>().animate();
-            //Jump();
-            //BetterJump();
-            print("Boo");
+            Glide();
         }
         else
         {
@@ -57,6 +51,18 @@ public class Eagle : controllableEnemy
         {
             rbody = GetComponent<Rigidbody2D>();
             Move(xMovement * Time.fixedDeltaTime);
+        }
+    }
+
+    void Glide()
+    {
+        if (player.GetComponent<Player>().isFalling && Input.GetKey(KeyCode.Space))
+        {
+            player.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
+        }
+        else
+        {
+            player.GetComponent<Rigidbody2D>().gravityScale = 3f;
         }
     }
 
