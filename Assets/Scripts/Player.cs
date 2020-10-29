@@ -106,6 +106,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void externalJump()
+    {
+        rbody.velocity = Vector2.up * (jumpForce);
+    }
+
     void CanJump()
     {
         Collider2D collider = Physics2D.OverlapCircle(isGroundedChecker.position, checkGroundRadius, groundLayer);
@@ -165,6 +170,20 @@ public class Player : MonoBehaviour
         if (collision.gameObject.layer.Equals(9) && !Input.GetKey(KeyCode.Z))
         {
             TakeDamage();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.name.Equals("Health Crystal"))
+        {
+            health++;
+            Destroy(collision.gameObject);
+        }
+        else if (collision.name.Equals("Gem"))
+        {
+            print("Score");
+            Destroy(collision.gameObject);
         }
     }
 

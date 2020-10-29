@@ -19,7 +19,7 @@ public class DamagePlayer : MonoBehaviour
                     collision.GetComponent<Player>().TakeDamage();
                     //collision.GetComponent<Rigidbody2D>().velocity = new Vector2(-100f, 50f);
                     //collision.GetComponent<Player>().setLaunched(true);
-                    print("GO AWAY!!!");
+                    //print("GO AWAY!!!");
                 
                 //collision.GetComponent<Player>().loseHealth();
             }

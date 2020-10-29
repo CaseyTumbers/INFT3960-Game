@@ -13,13 +13,15 @@ public class Eagle : controllableEnemy
 
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
-    public float jumpForce;
+    public float jumpForce = 20;
+
+    private int jumpCount = 2;
 
     private Animator animator;
 
-    [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
-    private Vector3 m_Velocity = Vector3.zero;
-    float xMovement = 0f;
+    //[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
+    //private Vector3 m_Velocity = Vector3.zero;
+    //float xMovement = 0f;
     // Start is called before the first frame update
     void Awake()
     {
@@ -38,6 +40,15 @@ public class Eagle : controllableEnemy
             transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, this.transform.position.z);
             GetComponent<BoxCollider2D>().enabled = false;
             Glide();
+            Jump();
+
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                player.GetComponent<CollideWithEnemy>().Dismount();
+                this.player = null;
+                isControlled = false;
+                GetComponent<BoxCollider2D>().enabled = true;
+            }
         }
         else
         {
@@ -45,14 +56,14 @@ public class Eagle : controllableEnemy
         }
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if (isControlled)
         {
             rbody = GetComponent<Rigidbody2D>();
             Move(xMovement * Time.fixedDeltaTime);
         }
-    }
+    }*/
 
     void Glide()
     {
@@ -66,7 +77,7 @@ public class Eagle : controllableEnemy
         }
     }
 
-    void Move(float moveValue)
+    /*void Move(float moveValue)
     {
         Vector3 targetVelocity = new Vector2(moveValue * 10f, rbody.velocity.y);
         // And then smoothing it out and applying it to the character
@@ -83,14 +94,24 @@ public class Eagle : controllableEnemy
         if (stop && Input.GetKeyDown(KeyCode.LeftArrow))
         {
             stop = false;
-        }*/
-    }
+        }
+    }*/
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !jumped)
+        if (Input.GetKeyDown(KeyCode.Space) && player.GetComponent<Player>().ExternalJumpCheck())
         {
-            rbody.velocity = Vector2.up * jumpForce;
+            jumpCount--;
+            if (jumpCount == 1)
+            {
+                print("DOUBLE JUMP");
+                player.GetComponent<Player>().externalJump();
+            }
+        }
+
+        if (!player.GetComponent<Player>().ExternalJumpCheck())
+        {
+            jumpCount = 2;
         }
     }
 

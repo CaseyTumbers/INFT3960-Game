@@ -73,6 +73,15 @@ public class CollideWithEnemy : Player
         }
     }
 
+    public void Dismount()
+    {
+        GetComponent<Rigidbody2D>().gravityScale = 3f;
+        controlledCreature.GetComponent<controllableEnemy>().setIsControlled(false);
+        controlledCreature.GetComponent<controllableEnemy>().setPlayer(null);
+        eagleControlled = false;
+        setCoolDown(true);
+    }
+
     public void setCoolDown(bool c)
     {
         coolDown = c;
