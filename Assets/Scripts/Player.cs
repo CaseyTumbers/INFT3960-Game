@@ -36,6 +36,9 @@ public class Player : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
 
+    public GameObject dialogueGroup;
+    private bool dialogueOnScreen = false;
+
     [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
     private Vector3 m_Velocity = Vector3.zero;
     float xMovement = 0f;
@@ -48,34 +51,45 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //runFlag = Input.GetKey("right");
-        //print(controllingCreature);
-        updateHealth();
-        if (!controllingCreature)
+        if (!dialogueOnScreen)
         {
-            xMovement = Input.GetAxisRaw("Horizontal") * speed;
-            animate();
-            CanJump();
-            //WallCheck();
-            Jump();
-            BetterJump();
-            mountedAnimPlayer = false;
+            //runFlag = Input.GetKey("right");
+            //print(controllingCreature);
+            updateHealth();
+            if (!controllingCreature)
+            {
+                xMovement = Input.GetAxisRaw("Horizontal") * speed;
+                animate();
+                CanJump();
+                //WallCheck();
+                Jump();
+                BetterJump();
+                mountedAnimPlayer = false;
+            }
+            else
+            {
+                animator.SetBool("isRunning", false);
+                if (!mountedAnimPlayer)
+                {
+                    animator.SetBool("isMounted", true);
+                    animator.SetTrigger("mounted");
+                    mountedAnimPlayer = true;
+                }
+            }
         }
         else
         {
+            xMovement = 0;
             animator.SetBool("isRunning", false);
-            if (!mountedAnimPlayer)
-            {
-                animator.SetBool("isMounted", true);
-                animator.SetTrigger("mounted");
-                mountedAnimPlayer = true;
-            }
+            animator.SetInteger("inAir", 0);
         }
     }
 
     private void FixedUpdate()
     {
-        Move(xMovement * Time.fixedDeltaTime);
+       
+         Move(xMovement * Time.fixedDeltaTime);
+       
     }
     void Move(float moveValue)
     {
@@ -184,6 +198,21 @@ public class Player : MonoBehaviour
         {
             print("Score");
             Destroy(collision.gameObject);
+        }
+        else if (collision.name.Equals("Spikes"))
+        {
+            print("OW");
+            loseHealth();
+        }
+        else if (collision.name.Contains("Dialogue"))
+        {
+            //Time.timeScale = 0;
+            if (!dialogueOnScreen)
+            {
+                dialogueOnScreen = true;
+                dialogueGroup.SetActive(true);
+                dialogueGroup.GetComponentInChildren<Dialogue>().writeText();
+            }
         }
     }
 
