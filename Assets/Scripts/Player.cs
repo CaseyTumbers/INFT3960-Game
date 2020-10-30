@@ -205,7 +205,7 @@ public class Player : MonoBehaviour
             print("Score");
             Destroy(collision.gameObject);
         }
-        else if (collision.name.Equals("Spikes"))
+        else if (collision.name.Contains("Spikes"))
         {
             print("OW");
             loseHealth();
