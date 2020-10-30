@@ -1121,7 +1121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &610196967
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22468,7 +22468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a0952751d068745b651b7e86c1444c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 100
+  speed: 40
   stop: 0
   isFalling: 0
   isGroundedChecker: {fileID: 411268769}
@@ -22504,27 +22504,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da55caedd5ba4ec4899f60caddca9e2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  stop: 0
-  isFalling: 0
-  isGroundedChecker: {fileID: 0}
-  isWallRightChecker: {fileID: 0}
-  checkGroundRadius: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  fallMultiplier: 1.5
-  lowJumpMultiplier: 2
-  jumpForce: 0
-  respawnPoint: {fileID: 298552660}
-  sprite: {fileID: 662263250}
-  health: 3
-  numOfHearts: 0
-  hearts: []
-  fullHeart: {fileID: 0}
-  emptyHeart: {fileID: 0}
-  dialogueGroup: {fileID: 0}
-  m_MovementSmoothing: 0.05
   isEnemyChecker: {fileID: 1809943415}
   checkEnemyRadius: 0.1
   enemyLayer:

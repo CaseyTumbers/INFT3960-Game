@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollideWithEnemy : Player
+public class CollideWithEnemy : MonoBehaviour
 {
     //TODO - Make player transform with slime.
     public Transform isEnemyChecker;

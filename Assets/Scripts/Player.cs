@@ -82,6 +82,12 @@ public class Player : MonoBehaviour
             xMovement = 0;
             animator.SetBool("isRunning", false);
             animator.SetInteger("inAir", 0);
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                dialogueGroup.SetActive(false);
+                dialogueOnScreen = false;
+            }
         }
     }
 
@@ -212,6 +218,7 @@ public class Player : MonoBehaviour
                 dialogueOnScreen = true;
                 dialogueGroup.SetActive(true);
                 dialogueGroup.GetComponentInChildren<Dialogue>().writeText();
+                collision.GetComponent<BoxCollider2D>().enabled = false;
             }
         }
     }
