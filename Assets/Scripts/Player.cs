@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
+    private bool addHealth = true;
 
     public GameObject dialogueGroup;
     private bool dialogueOnScreen = false;
@@ -197,8 +198,13 @@ public class Player : MonoBehaviour
     {
         if (collision.name.Equals("Health Crystal"))
         {
-            health++;
-            Destroy(collision.gameObject);
+            if (addHealth)
+            {
+                addHealth = false;
+                health++;
+                Destroy(collision.gameObject);
+            }
+            addHealth = true;
         }
         else if (collision.name.Equals("Gem"))
         {
@@ -208,6 +214,7 @@ public class Player : MonoBehaviour
         else if (collision.name.Contains("Spikes"))
         {
             print("OW");
+            transform.position = respawnPoint.position;
             loseHealth();
         }
         else if (collision.name.Contains("Dialogue"))

@@ -10,6 +10,7 @@ public class Eagle : controllableEnemy
     public float speed = 40f;
     private Rigidbody2D rbody;
     private bool jumped = false;
+    private bool runFadeAnim = false;
 
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
@@ -37,10 +38,20 @@ public class Eagle : controllableEnemy
     {
         if (isControlled)
         {
+            runFadeAnim = true;
             transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, this.transform.position.z);
             GetComponent<BoxCollider2D>().enabled = false;
             Glide();
             Jump();
+
+            if (player.GetComponent<Player>().getFacingRight())
+            {
+                faceLeft();
+            }
+            else
+            {
+                faceRight();
+            }
 
             if (Input.GetKeyDown(KeyCode.Z))
             {
@@ -52,7 +63,12 @@ public class Eagle : controllableEnemy
         }
         else
         {
-            this.transform.position = new Vector2(initialX, initialY);
+            if(runFadeAnim)
+            {
+                runFadeAnim = false;
+                animator.SetTrigger("Despawn");
+                Invoke("Respawn", 1f);
+            }
         }
     }
 
@@ -64,6 +80,11 @@ public class Eagle : controllableEnemy
             Move(xMovement * Time.fixedDeltaTime);
         }
     }*/
+
+    void Respawn()
+    {
+        this.transform.position = new Vector2(initialX, initialY);
+    }
 
     void Glide()
     {
@@ -113,6 +134,16 @@ public class Eagle : controllableEnemy
         {
             jumpCount = 2;
         }
+    }
+
+    public void faceRight()
+    {
+        transform.eulerAngles = new Vector3(0, 0, 0);
+    }
+
+    public void faceLeft()
+    {
+        transform.eulerAngles = new Vector3(0, 180, 0);
     }
 
     void CanJump()

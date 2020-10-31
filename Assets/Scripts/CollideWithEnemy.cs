@@ -58,7 +58,7 @@ public class CollideWithEnemy : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collider)
+    void OnTriggerEnter2D(Collider2D collider)
     {
 
         if (collider.gameObject.layer.Equals(10) && Input.GetKey(KeyCode.Z) && !coolDown)

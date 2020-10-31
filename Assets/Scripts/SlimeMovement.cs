@@ -16,6 +16,7 @@ public class SlimeMovement : controllableEnemy
     private Transform initialPos;
     private float initialX, initialY;
     private bool respawnPointFlag = false;
+    private bool runDespawnAnim = false;
     //private bool isControlled = false;
 
     void Awake()
@@ -149,7 +150,13 @@ public class SlimeMovement : controllableEnemy
 
     public void Respawn()
     {
-        transform.position = new Vector3(initialX,initialY,0);
+        animate.SetTrigger("Despawn");
+        Invoke("MoveToInitialPosition", 1f);
+    }
+
+    public void MoveToInitialPosition()
+    {
+        transform.position = new Vector3(initialX, initialY, 0);
     }
 
     public int getSlimeHealth()
