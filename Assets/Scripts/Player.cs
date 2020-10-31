@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private bool facingRight = true;
     private bool launched = false;
     public bool isFalling = false;
+    private bool glide = false;
 
     public Transform isGroundedChecker;
     public Transform isWallRightChecker;
@@ -165,7 +166,7 @@ public class Player : MonoBehaviour
     {
         //print(launched);
        
-        if (rbody.velocity.y < 0)
+        if (rbody.velocity.y < 0 && !glide)
         {
             rbody.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
         }
@@ -210,6 +211,7 @@ public class Player : MonoBehaviour
         {
             print("Score");
             Destroy(collision.gameObject);
+            ScoreManager.instance.ChangeScore(1);
         }
         else if (collision.name.Contains("Spikes"))
         {
@@ -243,6 +245,16 @@ public class Player : MonoBehaviour
     public void setControllingCreature(bool value)
     {
         controllingCreature = value;
+    }
+
+    public void setGlide(bool value)
+    {
+        glide = value;
+    }
+
+    public bool getGlide()
+    {
+        return glide;
     }
 
     public bool getControllingCreature()

@@ -60,6 +60,7 @@ public class Eagle : controllableEnemy
                 isControlled = false;
                 GetComponent<BoxCollider2D>().enabled = true;
             }
+           
         }
         else
         {
@@ -91,10 +92,12 @@ public class Eagle : controllableEnemy
         if (player.GetComponent<Player>().isFalling && Input.GetKey(KeyCode.Space))
         {
             player.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
+            player.GetComponent<Player>().setGlide(true);
         }
         else
         {
             player.GetComponent<Rigidbody2D>().gravityScale = 3f;
+            player.GetComponent<Player>().setGlide(false);
         }
     }
 

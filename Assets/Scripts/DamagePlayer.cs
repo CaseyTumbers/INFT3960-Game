@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DamagePlayer : MonoBehaviour
 {
+    GameObject temp;
     void OnTriggerEnter2D(Collider2D collision)
     {
         //print("OW");
@@ -39,6 +40,12 @@ public class DamagePlayer : MonoBehaviour
            
                 collision.GetComponent<SlimeMovement>().slimeLoseHealth();
             
+        }
+        else if (collision.gameObject.name.Contains("Block"))
+        {
+            temp = collision.gameObject;
+            //temp.GetComponent<Breakable>().Break();
+            print("DESTROYED");
         }
     }
 }
