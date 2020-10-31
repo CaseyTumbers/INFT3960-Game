@@ -11,7 +11,7 @@ public class SlimeTurnAround : MonoBehaviour
     void OnTriggerStay2D(Collider2D collision) {
         if (detectionInt == 0)
         {
-            if (collision.gameObject.name.Contains("rock"))
+            if (collision.gameObject.tag.Contains("rock"))
             {
                 if (!GetComponentInParent<SlimeMovement>().getIsAttacking())
                 {

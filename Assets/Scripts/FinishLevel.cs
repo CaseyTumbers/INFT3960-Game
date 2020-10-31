@@ -10,7 +10,7 @@ public class FinishLevel : MonoBehaviour
 
         if (collision.gameObject.name.Equals("Main Character"))
         {
-            SceneManager.LoadScene("WinScreen");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }

@@ -34,7 +34,7 @@ public class CollideWithEnemy : MonoBehaviour
             {
                 controlledCreature = collider.gameObject;
                 //print(control);
-                transform.position = new Vector3(controlledCreature.transform.position.x, controlledCreature.transform.position.y + 3, controlledCreature.transform.position.x);
+                transform.position = new Vector3(controlledCreature.transform.position.x, controlledCreature.transform.position.y + 3, 1);
                 controlledCreature.GetComponent<controllableEnemy>().setIsControlled(true);
                 controlledCreature.GetComponent<controllableEnemy>().setPlayer(gameObject);
                 //playerMovement.setControllingCreature(true);
@@ -65,7 +65,7 @@ public class CollideWithEnemy : MonoBehaviour
         {
             controlledCreature = collider.gameObject;
             //print(control);
-            transform.position = new Vector3(controlledCreature.transform.position.x, controlledCreature.transform.position.y - 1, controlledCreature.transform.position.x);
+            transform.position = new Vector3(controlledCreature.transform.position.x, controlledCreature.transform.position.y - 1, 1);
             controlledCreature.GetComponent<controllableEnemy>().setIsControlled(true);
             controlledCreature.GetComponent<controllableEnemy>().setPlayer(gameObject);
             eagleControlled = true;

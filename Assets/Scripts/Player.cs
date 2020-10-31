@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
     private bool addHealth = true;
+    private float healthCoolDown;
 
     public GameObject dialogueGroup;
     private bool dialogueOnScreen = false;
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour
             //runFlag = Input.GetKey("right");
             //print(controllingCreature);
             updateHealth();
+            healthCoolDown -= Time.deltaTime;
             if (!controllingCreature)
             {
                 xMovement = Input.GetAxisRaw("Horizontal") * speed;
@@ -178,11 +180,15 @@ public class Player : MonoBehaviour
 
     public void loseHealth()
     {
-        health -= 1;
-        if (health <= 0)
+        if (healthCoolDown < 0)
         {
-            transform.position = respawnPoint.position;
-            health = 3;
+            healthCoolDown = 1f;
+            health -= 1;
+            if (health <= 0)
+            {
+                transform.position = respawnPoint.position;
+                health = 3;
+            }
         }
     }
 
@@ -193,11 +199,22 @@ public class Player : MonoBehaviour
         {
             TakeDamage();
         }
+        else if (collision.gameObject.name.Contains("Spikes"))
+        {
+            print("OW");
+            transform.position = respawnPoint.position;
+            loseHealth();
+        }
+        else if (collision.gameObject.name.Contains("Key"))
+        {
+            UnlockDoor.numKeys--;
+            Destroy(collision.gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name.Equals("Health Crystal"))
+        if (collision.name.Contains("Health Crystal"))
         {
             if (addHealth)
             {
@@ -207,17 +224,11 @@ public class Player : MonoBehaviour
             }
             addHealth = true;
         }
-        else if (collision.name.Equals("Gem"))
+        else if (collision.name.Contains("Gem"))
         {
             print("Score");
             Destroy(collision.gameObject);
             ScoreManager.instance.ChangeScore(1);
-        }
-        else if (collision.name.Contains("Spikes"))
-        {
-            print("OW");
-            transform.position = respawnPoint.position;
-            loseHealth();
         }
         else if (collision.name.Contains("Dialogue"))
         {
@@ -229,6 +240,10 @@ public class Player : MonoBehaviour
                 dialogueGroup.GetComponentInChildren<Dialogue>().writeText();
                 collision.GetComponent<BoxCollider2D>().enabled = false;
             }
+        }
+        else if (collision.name.Contains("Checkpoint"))
+        {
+            respawnPoint = collision.transform;
         }
     }
 

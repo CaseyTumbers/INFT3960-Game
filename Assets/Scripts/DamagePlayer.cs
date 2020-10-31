@@ -44,8 +44,8 @@ public class DamagePlayer : MonoBehaviour
         else if (collision.gameObject.name.Contains("Block"))
         {
             temp = collision.gameObject;
-            //temp.GetComponent<Breakable>().Break();
-            print("DESTROYED");
+            temp.GetComponent<Breakable>().Break();
+            print("DESTROYED" + temp.name);
         }
     }
 }
