@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    //Base Movement Variables
     public float speed = 40f;
     private Rigidbody2D rbody;
     private bool jumped = false;
@@ -17,21 +18,24 @@ public class Player : MonoBehaviour
     private bool glide = false;
     private bool addToScore = true;
 
+    //Ground Checker Variables
     public Transform isGroundedChecker;
     public Transform isWallRightChecker;
     public float checkGroundRadius;
     public LayerMask groundLayer;
 
+    //Jump and Fall Variables
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
     public float jumpForce;
 
+    //Animation Variables
     public Transform respawnPoint;
     protected Animator animator;
     public GameObject sprite;
-
     private bool mountedAnimPlayer = false;
 
+    //Health Variables
     public int health = 3;
     public int numOfHearts;
     public Image[] hearts;
@@ -40,13 +44,16 @@ public class Player : MonoBehaviour
     private bool addHealth = true;
     private float healthCoolDown = 0;
 
+    //Dialogue Variables
     public GameObject dialogueGroup;
     private bool dialogueOnScreen = false;
 
+    //Smoother Movement Variables
     [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
     private Vector3 m_Velocity = Vector3.zero;
     float xMovement = 0f;
 
+    //Audio Variables
     AudioSource audioData;
     public AudioClip collectGem;
     public AudioClip collectCrystal;
@@ -387,11 +394,6 @@ public class Player : MonoBehaviour
         {
             animator.SetInteger("inAir", -1);
             isFalling = true;
-        }
-        else if(rbody.velocity.y > 0)
-        {
-            animator.SetInteger("inAir", 1);
-            isFalling = false;
         }
         else
         {
