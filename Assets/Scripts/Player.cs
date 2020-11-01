@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEditor.XR;
 using System.Dynamic;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private bool launched = false;
     public bool isFalling = false;
     private bool glide = false;
+    private bool addToScore = true;
 
     public Transform isGroundedChecker;
     public Transform isWallRightChecker;
@@ -37,7 +38,7 @@ public class Player : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
     private bool addHealth = true;
-    private float healthCoolDown;
+    private float healthCoolDown = 0;
 
     public GameObject dialogueGroup;
     private bool dialogueOnScreen = false;
@@ -65,7 +66,10 @@ public class Player : MonoBehaviour
             //runFlag = Input.GetKey("right");
             //print(controllingCreature);
             updateHealth();
-            healthCoolDown -= Time.deltaTime;
+            if (healthCoolDown > 0)
+            {
+                healthCoolDown -= Time.deltaTime;
+            }
             if (!controllingCreature)
             {
                 xMovement = Input.GetAxisRaw("Horizontal") * speed;
@@ -198,7 +202,7 @@ public class Player : MonoBehaviour
 
     public void loseHealth()
     {
-        if (healthCoolDown < 0)
+        if (healthCoolDown <= 0)
         {
             healthCoolDown = 1f;
             health -= 1;
@@ -206,6 +210,7 @@ public class Player : MonoBehaviour
             {
                 transform.position = respawnPoint.position;
                 health = 3;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
     }
@@ -239,18 +244,26 @@ public class Player : MonoBehaviour
             if (addHealth)
             {
                 addHealth = false;
-                health++;
+                if (health < 3)
+                {
+                    health++;
+                }
                 Destroy(collision.gameObject);
             }
             addHealth = true;
         }
         else if (collision.name.Contains("Gem"))
         {
-            print("Score");
-            audioData.clip = collectGem;
-            audioData.Play(0);
             Destroy(collision.gameObject);
-            ScoreManager.instance.ChangeScore(1);
+            if (addToScore)
+            {
+                addToScore = false;
+                //print("Score");
+                audioData.clip = collectGem;
+                audioData.Play(0);
+                ScoreManager.instance.ChangeScore(1);
+            }
+            addToScore = true;
         }
         else if (collision.name.Contains("Dialogue"))
         {
@@ -374,6 +387,11 @@ public class Player : MonoBehaviour
         {
             animator.SetInteger("inAir", -1);
             isFalling = true;
+        }
+        else if(rbody.velocity.y > 0)
+        {
+            animator.SetInteger("inAir", 1);
+            isFalling = false;
         }
         else
         {

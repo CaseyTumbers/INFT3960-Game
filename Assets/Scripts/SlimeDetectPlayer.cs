@@ -10,7 +10,7 @@ public class SlimeDetectPlayer : MonoBehaviour
     private Animator animator;
     private bool coolDown = false;
     private GameObject temp;
-    AudioSource audio;
+    new AudioSource audio;
 
     // Start is called before the first frame update
     void Awake()
@@ -62,6 +62,7 @@ public class SlimeDetectPlayer : MonoBehaviour
         animator.SetBool("attack", true);
         if (GetComponentInParent<controllableEnemy>().getIsControlled())
         {
+            temp = GetComponentInParent<controllableEnemy>().getPlayer();
             temp.GetComponent<Player>().attackAnim(true);
         }
         Invoke("attack", 0.15f);
@@ -78,6 +79,7 @@ public class SlimeDetectPlayer : MonoBehaviour
         animator.SetBool("attack", false);
         if (GetComponentInParent<controllableEnemy>().getIsControlled())
         {
+            temp = GetComponentInParent<controllableEnemy>().getPlayer();
             temp.GetComponent<Player>().attackAnim(false);
         }
         attackArea.GetComponent<BoxCollider2D>().enabled = false;

@@ -27836,7 +27836,7 @@ MonoBehaviour:
   sentences3:
   - Yep, there is something strange going on here.
   - I can feel a mysterious energy resonating from inside the ruins.
-  speed: 0
+  speed: 0.02
   nextText: {fileID: 853708631}
 --- !u!1001 &1328344998
 PrefabInstance:
@@ -29560,6 +29560,11 @@ PrefabInstance:
     - target: {fileID: 8186935480794220172, guid: ded9bb9ea6b01cb4a83cd3fba41a4b33,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8186935480794220175, guid: ded9bb9ea6b01cb4a83cd3fba41a4b33,
+        type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8186935480794220211, guid: ded9bb9ea6b01cb4a83cd3fba41a4b33,

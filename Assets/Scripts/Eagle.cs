@@ -9,7 +9,6 @@ public class Eagle : controllableEnemy
 
     public float speed = 40f;
     private Rigidbody2D rbody;
-    private bool jumped = false;
     private bool runFadeAnim = false;
 
     public float fallMultiplier = 2.5f;
@@ -18,7 +17,7 @@ public class Eagle : controllableEnemy
 
     private int jumpCount = 2;
 
-    private Animator animator;
+    private Animator animate;
 
     //[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
     //private Vector3 m_Velocity = Vector3.zero;
@@ -27,7 +26,7 @@ public class Eagle : controllableEnemy
     void Awake()
     {
         rbody = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animate = GetComponent<Animator>();
 
         initialX = this.transform.position.x;
         initialY = this.transform.position.y;
@@ -60,14 +59,14 @@ public class Eagle : controllableEnemy
                 isControlled = false;
                 GetComponent<BoxCollider2D>().enabled = true;
             }
-           
+
         }
         else
         {
-            if(runFadeAnim)
+            if (runFadeAnim)
             {
                 runFadeAnim = false;
-                animator.SetTrigger("Despawn");
+                animate.SetTrigger("Despawn");
                 Invoke("Respawn", 1f);
             }
         }
@@ -151,29 +150,4 @@ public class Eagle : controllableEnemy
         transform.eulerAngles = new Vector3(0, 180, 0);
     }
 
-    void CanJump()
-    {
-        if (player.GetComponent<Player>().ExternalJumpCheck())
-        {
-            jumped = false;
-        }
-        else
-        {
-            jumped = true;
-        }
-    }
-
-    void BetterJump()
-    {
-        //print(launched);
-
-        if (rbody.velocity.y < 0)
-        {
-            rbody.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
-        }
-        else if (rbody.velocity.y > 0 && !Input.GetKey(KeyCode.Space))
-        {
-            rbody.velocity += Vector2.up * Physics2D.gravity * (lowJumpMultiplier - 1) * Time.deltaTime;
-        }
-    }
 }

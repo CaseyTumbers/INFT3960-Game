@@ -80501,7 +80501,7 @@ MonoBehaviour:
   sentences3:
   - Yep, there is something strange going on here.
   - I can feel a mysterious energy resonating from inside the ruins.
-  speed: 0.05
+  speed: 0.02
   nextText: {fileID: 948765349}
 --- !u!1 &755074000
 GameObject:

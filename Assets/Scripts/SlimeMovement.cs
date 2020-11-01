@@ -16,7 +16,6 @@ public class SlimeMovement : controllableEnemy
     private Transform initialPos;
     private float initialX, initialY;
     private bool respawnPointFlag = false;
-    private bool runDespawnAnim = false;
     //private bool isControlled = false;
 
     void Awake()
@@ -172,10 +171,5 @@ public class SlimeMovement : controllableEnemy
     public bool getIsAttacking()
     {
         return isAttacking;
-    }
-
-    public bool getIsControlled()
-    {
-        return isControlled;
     }
 }

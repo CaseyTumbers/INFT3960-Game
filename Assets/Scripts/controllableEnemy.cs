@@ -6,11 +6,10 @@ public class controllableEnemy : MonoBehaviour
 {
     protected bool isControlled = false;
     protected GameObject player; 
-    private Animator animator;
 
     void Awake()
     {
-        animator = GetComponent<Animator>();
+        
     }
 
     public void setIsControlled(bool value)

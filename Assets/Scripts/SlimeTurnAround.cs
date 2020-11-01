@@ -7,7 +7,6 @@ public class SlimeTurnAround : MonoBehaviour
     public GameObject detectAreaLeft;
     public int detectionInt = 0;
     private bool turned = false;
-    private bool wait = false;
     void OnTriggerStay2D(Collider2D collision) {
         if (detectionInt == 0)
         {
@@ -92,7 +91,6 @@ public class SlimeTurnAround : MonoBehaviour
                 //Debug.Log("Did not Hit");
                 if (!GetComponentInParent<SlimeMovement>().getIsAttacking())
                 {
-                    wait = true;
                     //print("AHHH NO EDGE");
                     detectAreaLeft.GetComponent<BoxCollider2D>().enabled = false;
                     this.GetComponent<BoxCollider2D>().enabled = false;
@@ -113,7 +111,6 @@ public class SlimeTurnAround : MonoBehaviour
                     }
                     detectAreaLeft.GetComponent<BoxCollider2D>().enabled = true;
                     this.GetComponent<BoxCollider2D>().enabled = true;
-                    wait = false;
                 }
             }
         }
