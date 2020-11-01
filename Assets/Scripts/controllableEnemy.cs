@@ -18,8 +18,18 @@ public class controllableEnemy : MonoBehaviour
         isControlled = value;
     }
 
+    public bool getIsControlled()
+    {
+        return isControlled;
+    }
+
     public void setPlayer(GameObject p)
     {
         player = p;
+    }
+
+    public GameObject getPlayer()
+    {
+        return player;
     }
 }

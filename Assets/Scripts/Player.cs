@@ -46,10 +46,16 @@ public class Player : MonoBehaviour
     private Vector3 m_Velocity = Vector3.zero;
     float xMovement = 0f;
 
+    AudioSource audioData;
+    public AudioClip collectGem;
+    public AudioClip collectCrystal;
+    public AudioClip jumpSound;
+
     void Awake()
     {
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioData = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -135,6 +141,8 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !jumped && !launched)
         {
+            audioData.clip = jumpSound;
+            audioData.Play(0);
             rbody.velocity = Vector2.up*jumpForce;
             animator.SetInteger("inAir", 1);
         }
@@ -226,6 +234,8 @@ public class Player : MonoBehaviour
     {
         if (collision.name.Contains("Health Crystal"))
         {
+            audioData.clip = collectCrystal;
+            audioData.Play(0);
             if (addHealth)
             {
                 addHealth = false;
@@ -237,6 +247,8 @@ public class Player : MonoBehaviour
         else if (collision.name.Contains("Gem"))
         {
             print("Score");
+            audioData.clip = collectGem;
+            audioData.Play(0);
             Destroy(collision.gameObject);
             ScoreManager.instance.ChangeScore(1);
         }
@@ -279,6 +291,15 @@ public class Player : MonoBehaviour
             rbody.velocity = new Vector2(-100f, 50f);
         }
         loseHealth();
+    }
+
+    public void chargeAnim()
+    {
+        animator.SetTrigger("charge");
+    }
+    public void attackAnim(bool value)
+    {
+        animator.SetBool("attack", value);
     }
 
     public void setControllingCreature(bool value)

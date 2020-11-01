@@ -46,7 +46,7 @@ public class Dialogue : MonoBehaviour
         if (num == 1)
         {
             sentences = sentences1;
-            print("number 1");
+            //print("number 1");
         }
         else if (num == 2)
         {

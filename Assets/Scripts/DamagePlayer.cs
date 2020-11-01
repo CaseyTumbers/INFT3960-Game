@@ -47,5 +47,11 @@ public class DamagePlayer : MonoBehaviour
             temp.GetComponent<Breakable>().Break();
             print("DESTROYED" + temp.name);
         }
+        else if (collision.gameObject.name.Contains("Alter"))
+        {
+            temp = collision.gameObject;
+            temp.GetComponent<Breakable>().Break();
+            print("DESTROYED" + temp.name);
+        }
     }
 }

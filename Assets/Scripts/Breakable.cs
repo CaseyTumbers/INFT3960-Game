@@ -21,12 +21,28 @@ public class Breakable : MonoBehaviour
                 animate.SetTrigger("break");
                 print("broke it");
             }
+            else
+            {
+                print("OUCH THATHURT");
+                animate.SetTrigger("hit");
+            }
         }
     }
 
     public void Break()
     {
-        animate.SetTrigger("break");
-        this.GetComponent<BoxCollider2D>().enabled = false;
+        health--;
+        if (health <= 0)
+        {
+            animate.SetTrigger("break");
+            print("broke it");
+            this.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        else
+        {
+            print("OUCH THATHURT");
+            animate.SetTrigger("hit");
+        }
+       
     }
 }

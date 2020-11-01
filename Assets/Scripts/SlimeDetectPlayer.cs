@@ -9,13 +9,15 @@ public class SlimeDetectPlayer : MonoBehaviour
     public GameObject turnAroundScript;
     private Animator animator;
     private bool coolDown = false;
-    
+    private GameObject temp;
+    AudioSource audio;
 
     // Start is called before the first frame update
     void Awake()
     {
         attackArea.GetComponent<BoxCollider2D>().enabled = false;
         animator = GetComponentInParent<Animator>();
+        audio = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -46,6 +48,11 @@ public class SlimeDetectPlayer : MonoBehaviour
             }
 
             animator.SetTrigger("charge");
+            if (GetComponentInParent<controllableEnemy>().getIsControlled())
+            {
+                temp = GetComponentInParent<controllableEnemy>().getPlayer();
+                temp.GetComponent<Player>().chargeAnim();
+            }
             Invoke("attackAnim", 1);
             Invoke("stopAttack", 2);
         }
@@ -53,17 +60,26 @@ public class SlimeDetectPlayer : MonoBehaviour
     void attackAnim()
     {
         animator.SetBool("attack", true);
+        if (GetComponentInParent<controllableEnemy>().getIsControlled())
+        {
+            temp.GetComponent<Player>().attackAnim(true);
+        }
         Invoke("attack", 0.15f);
     }
 
     void attack()
     {
+        audio.Play(0);
         attackArea.GetComponent<BoxCollider2D>().enabled = true;
     }
 
     void stopAttack()
     {
         animator.SetBool("attack", false);
+        if (GetComponentInParent<controllableEnemy>().getIsControlled())
+        {
+            temp.GetComponent<Player>().attackAnim(false);
+        }
         attackArea.GetComponent<BoxCollider2D>().enabled = false;
         Invoke("resetCooldown", 2f);
         siblingDetectArea.GetComponent<BoxCollider2D>().enabled = true;
