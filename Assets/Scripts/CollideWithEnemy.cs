@@ -85,6 +85,6 @@ public class CollideWithEnemy : MonoBehaviour
     public void setCoolDown(bool c)
     {
         coolDown = c;
-        coolDownTime = 1f;
+        coolDownTime = 0.5f;
     }
 }

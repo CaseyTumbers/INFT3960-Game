@@ -91,6 +91,7 @@ public class Eagle : controllableEnemy
     {
         if (player.GetComponent<Player>().isFalling && Input.GetKey(KeyCode.Space))
         {
+            //player.GetComponent<Rigidbody2D>().velocity = new Vector2(player.GetComponent<Rigidbody2D>().velocity.x, -1f);
             player.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
             player.GetComponent<Player>().setGlide(true);
         }
@@ -129,6 +130,7 @@ public class Eagle : controllableEnemy
             if (jumpCount == 1)
             {
                 print("DOUBLE JUMP");
+                player.GetComponent<Rigidbody2D>().velocity = new Vector2(player.GetComponent<Rigidbody2D>().velocity.x, 0f);
                 player.GetComponent<Player>().externalJump();
             }
         }

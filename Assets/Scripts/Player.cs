@@ -68,6 +68,7 @@ public class Player : MonoBehaviour
                 //WallCheck();
                 Jump();
                 BetterJump();
+                
                 mountedAnimPlayer = false;
             }
             else
@@ -89,8 +90,17 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.C))
             {
-                dialogueGroup.SetActive(false);
-                dialogueOnScreen = false;
+                //print(dialogueGroup.GetComponentInChildren<Dialogue>().checkProgress());
+                if (dialogueGroup.GetComponentInChildren<Dialogue>().checkProgress())
+                {
+                    dialogueGroup.GetComponentInChildren<Dialogue>().NextSentence();
+                }
+
+                if (dialogueGroup.GetComponentInChildren<Dialogue>().checkFinished())
+                {
+                    dialogueGroup.SetActive(false);
+                    dialogueOnScreen = false;
+                }
             }
         }
     }
@@ -235,6 +245,20 @@ public class Player : MonoBehaviour
             //Time.timeScale = 0;
             if (!dialogueOnScreen)
             {
+                if (collision.name.Contains("1"))
+                {
+                    dialogueGroup.GetComponentInChildren<Dialogue>().setNum(1);
+                    //print("number 1");
+                }
+                else if (collision.name.Contains("2"))
+                {
+                    dialogueGroup.GetComponentInChildren<Dialogue>().setNum(2);
+                }
+                else if (collision.name.Contains("3"))
+                {
+                    dialogueGroup.GetComponentInChildren<Dialogue>().setNum(3);
+                }
+
                 dialogueOnScreen = true;
                 dialogueGroup.SetActive(true);
                 dialogueGroup.GetComponentInChildren<Dialogue>().writeText();

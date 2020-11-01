@@ -5,6 +5,7 @@ using UnityEngine;
 public class Breakable : MonoBehaviour
 {
     private Animator animate;
+    public int health;
 
     private void Awake()
     {
@@ -14,8 +15,12 @@ public class Breakable : MonoBehaviour
     {
         if (collision.gameObject.name.Equals("AttackArea"))
         {
-            animate.SetTrigger("break");
-            print("broke it");
+            health--;
+            if(health <= 0)
+            {
+                animate.SetTrigger("break");
+                print("broke it");
+            }
         }
     }
 
